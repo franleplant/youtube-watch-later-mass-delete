@@ -1,4 +1,4 @@
-import { browser } from "webextension-polyfill-ts"
+import { browser } from "webextension-polyfill-ts";
 
 // doc https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/onMessage
 browser.runtime.onMessage.addListener((message, sender) => {

@@ -29,23 +29,17 @@ module.exports = {
   plugins: [
     new CopyPlugin({
       patterns: [
-      {
-        from: "**/*",
-        context: "src",
-        to: "",
-        filter: (path) => {
-          const denyList = [
-            '.ts',
-            '.js',
-          ]
+        {
+          from: "**/*",
+          context: "src",
+          to: "",
+          filter: (path) => {
+            const denyList = [".ts", ".js"];
 
-          return !denyList.some(denied => path.includes(denied))
-        }
-      },
-
-      ]
-
-    }
-    ),
+            return !denyList.some((denied) => path.includes(denied));
+          },
+        },
+      ],
+    }),
   ],
 };

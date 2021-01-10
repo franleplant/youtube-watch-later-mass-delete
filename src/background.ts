@@ -1,4 +1,4 @@
-import { browser } from "webextension-polyfill-ts"
+import { browser } from "webextension-polyfill-ts";
 
 browser.runtime.onInstalled.addListener(() => {
   browser.declarativeContent.onPageChanged.removeRules(undefined, () => {
