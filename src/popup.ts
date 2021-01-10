@@ -1,4 +1,4 @@
-const browser = require("webextension-polyfill");
+import { browser } from "webextension-polyfill-ts"
 
 let changeColor = document.getElementById("changeColor");
 

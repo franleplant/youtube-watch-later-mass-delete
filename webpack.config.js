@@ -1,46 +1,51 @@
 const path = require("path");
-const SizePlugin = require("size-plugin");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
+  mode: "production",
   devtool: "source-map",
-  stats: "errors-only",
   entry: {
-    background: "./source/background",
-    popup: "./source/popup",
-    contentScript: "./source/contentScript",
-    options: "./source/options",
+    background: "./src/background",
+    popup: "./src/popup",
+    contentScript: "./src/contentScript",
+    options: "./src/options",
   },
   output: {
     path: path.join(__dirname, "distribution"),
     filename: "[name].js",
   },
-  plugins: [
-    new SizePlugin(),
-    new CopyWebpackPlugin([
+
+  module: {
+    rules: [
       {
-        from: "**/*",
-        context: "source",
-        ignore: ["*.js"],
+        test: /\.tsx?$/,
+        use: "babel-loader",
       },
-      {
-        from: "node_modules/webextension-polyfill/dist/browser-polyfill.min.js",
-      },
-    ]),
-  ],
-  optimization: {
-    minimizer: [
-      new TerserPlugin({
-        terserOptions: {
-          mangle: false,
-          compress: false,
-          output: {
-            beautify: true,
-            indent_level: 2, // eslint-disable-line camelcase
-          },
-        },
-      }),
     ],
   },
+  resolve: {
+    extensions: [".tsx", ".ts", ".js"],
+  },
+  plugins: [
+    new CopyPlugin({
+      patterns: [
+      {
+        from: "**/*",
+        context: "src",
+        to: "",
+        filter: (path) => {
+          const denyList = [
+            '.ts',
+            '.js',
+          ]
+
+          return !denyList.some(denied => path.includes(denied))
+        }
+      },
+
+      ]
+
+    }
+    ),
+  ],
 };

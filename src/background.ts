@@ -1,9 +1,7 @@
-const browser = require("webextension-polyfill");
+import { browser } from "webextension-polyfill-ts"
 
-console.log("background babay");
-
-browser.runtime.onInstalled.addListener(function () {
-  browser.declarativeContent.onPageChanged.removeRules(undefined, function () {
+browser.runtime.onInstalled.addListener(() => {
+  browser.declarativeContent.onPageChanged.removeRules(undefined, () => {
     browser.declarativeContent.onPageChanged.addRules([
       {
         conditions: [
