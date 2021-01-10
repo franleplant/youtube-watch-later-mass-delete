@@ -36,7 +36,7 @@ module.exports = {
           filter: (path) => {
             const denyList = [".ts", ".js"];
 
-            return !denyList.some((denied) => path.includes(denied));
+            return !denyList.some((denied) => path.endsWith(denied));
           },
         },
       ],
