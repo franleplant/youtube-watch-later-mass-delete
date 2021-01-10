@@ -8,6 +8,8 @@ module.exports = {
   stats: "errors-only",
   entry: {
     background: "./source/background",
+    popup: "./source/popup",
+    contentScript: "./source/contentScript",
     options: "./source/options",
   },
   output: {
