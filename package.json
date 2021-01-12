@@ -4,14 +4,13 @@
     "build": "webpack --mode=production",
     "lint": "run-p lint:*",
     "lint-fix": "run-p 'lint:* -- --fix'",
-    "lint:css": "stylelint source/**/*.css",
     "lint:js": "xo",
     "typecheck": "tsc --noEmit",
     "prettier": "prettier --write \"**/*.{js,ts,css,html,json,md}\"",
     "format": "yarn prettier --write",
     "release:chrome": "cd distribution && webstore upload --auto-publish",
     "release:firefox": "cd distribution && web-ext-submit",
-    "test": "run-s lint:* build",
+    "test": "yarn typecheck",
     "watch": "webpack --mode=development --watch"
   },
   "xo": {
