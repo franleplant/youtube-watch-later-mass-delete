@@ -2,6 +2,8 @@ import "regenerator-runtime/runtime.js";
 import { browser } from "webextension-polyfill-ts";
 import VideoList from "./VideoList";
 
+console.log("YouTube Watch Later mass delete extension: content script loaded")
+
 // doc https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/onMessage
 browser.runtime.onMessage.addListener((message, sender) => {
   if (sender.tab) {

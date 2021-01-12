@@ -1,5 +1,6 @@
 import "regenerator-runtime/runtime.js";
 import { browser } from "webextension-polyfill-ts";
+import optionsStorage from "./options_storage";
 
 const form = document.querySelector("form");
 const videoInput = form?.querySelector("#n_videos");
@@ -12,6 +13,10 @@ if (!form || !videoInput) {
 
   throw new Error("bad popup");
 }
+
+optionsStorage.getAll().then(({ defaultVideosToDelete }) => {
+  videoInput.setAttribute("value", defaultVideosToDelete.toString());
+});
 
 let videosToDelete = 0;
 
@@ -40,9 +45,10 @@ function deleteStart() {
 }
 
 function deleteEnd() {
-  feedback!.innerHTML = "";
+  feedback!.innerHTML = "Done";
 }
 
 function setError(err: any) {
+  console.error(err)
   feedback!.innerHTML = `Something went wrong ${err}`;
 }
