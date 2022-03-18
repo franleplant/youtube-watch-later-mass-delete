@@ -5,9 +5,21 @@ This project is two fold:
 - demonstrate how to build a simple but functional browser extension
 - actually be able to cleanup my youtube watch later play list
 
-
 It uses webpack, typescript and modern idioms
 
+## Dev docs
+
+We are based off of [browser-extension-template](https://github.com/fregante/browser-extension-template).
+
+### Get started
+
+```sh
+# run webpack on watch mode
+yarn watch
+
+# start your extension in firefox
+yarn start
+```
 
 ### License
 

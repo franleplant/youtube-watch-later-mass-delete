@@ -49,6 +49,6 @@ function deleteEnd() {
 }
 
 function setError(err: any) {
-  console.error(err)
+  console.error(err);
   feedback!.innerHTML = `Something went wrong ${err}`;
 }

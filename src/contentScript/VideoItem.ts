@@ -10,7 +10,8 @@ export default class VideoItem {
   constructor(public root: Element) {}
 
   getOpenMenu(): HTMLElement {
-    const menu = this.root.querySelector("#menu button");
+    const menu = this.root.querySelector("[aria-label='Action menu']");
+    console.log("VideItem.getOpenMenu", menu);
     if (!menu) {
       console.error(`couldnt find menu button`, this.root);
       throw new Error(`couldnt find menu button`);
@@ -19,16 +20,21 @@ export default class VideoItem {
   }
 
   getRemoveButton(): HTMLElement {
-    const menuPopup = document.querySelector("ytd-popup-container");
-    const menuOptions = menuPopup?.querySelectorAll(
-      "ytd-menu-service-item-renderer"
-    );
-    const isRemoveButton = (e: Element) =>
-      e.innerHTML.toLowerCase().includes("watch later");
-    const removeButton = Array.from(menuOptions || []).find(isRemoveButton);
+    const menuContent = document.querySelector("#items[role=listbox]");
+    console.log("VideItem.getRemoveButton menuContent", menuContent);
+    if (!menuContent) {
+      throw new Error(`couldnt find menu content`);
+    }
 
+    const menuItems = menuContent.querySelectorAll("[role=menuitem]");
+    console.log("VideItem.getRemoveButton menuItems", menuItems);
+
+    const isRemoveButton = (e: Element) =>
+      e.innerHTML.toLowerCase().includes("remove");
+    const removeButton = Array.from(menuItems || []).find(isRemoveButton);
+
+    console.log("VideItem.getRemoveButton removeButton", removeButton);
     if (!removeButton) {
-      console.error(`couldnt find remove button`, menuPopup);
       throw new Error(`couldnt find remove button`);
     }
     return removeButton as HTMLElement;

@@ -16,7 +16,7 @@ export default class VideoList {
   getEndOfList(): HTMLElement {
     const eol = document.querySelector("ytd-continuation-item-renderer");
     if (!eol) {
-      throw new Error("not found");
+      throw new Error("EndOfList not found");
     }
 
     return eol as HTMLElement;
@@ -35,38 +35,54 @@ export default class VideoList {
   }
 
   getSortMenu(): HTMLElement {
-    const menu = document.querySelector("#sort-filter-menu");
+    // TODO we could easily check that the tooltip is not opened already by checking `aria-expanded=false or true`
+    const menu = document.querySelector("[role=button][aria-label=Ordering]");
+    console.debug("Found sort menu", menu);
     if (!menu) {
-      throw new Error("not found");
+      throw new Error("getSortMenu not found");
     }
 
     return menu as HTMLElement;
   }
 
-  getOpenSortMenu(): HTMLElement {
-    const open = this.getSortMenu().querySelector("paper-button");
-    if (!open) {
-      throw new Error("not found");
-    }
+  isSortMenuOpen(): boolean {
+    const menu = this.getSortMenu();
+    const isOpen = menu.getAttribute("aria-expanded") === "true";
 
-    return open as HTMLElement;
+    return isOpen;
   }
 
+  //getOpenSortMenu(): HTMLElement {
+  //const open = this.getSortMenu().querySelector("#trigger");
+  //if (!open) {
+  //throw new Error("OpenSortMenu not found");
+  //}
+
+  //return open as HTMLElement;
+  //}
+
   getSortOptions(): Array<HTMLElement> {
-    const elements = this.getSortMenu().querySelectorAll(
-      "#dropdown paper-listbox > a"
-    );
+    const optionsParent = this.getSortMenu().closest("[aria-haspopup=true]");
+    console.log("found options parent", optionsParent);
+    if (!optionsParent) {
+      throw new Error("SortOptionsParent not found");
+    }
+
+    const elements = optionsParent.querySelectorAll("[role=option]");
 
     const options = Array.from(elements);
     if (!options.length) {
-      throw new Error("not found");
+      throw new Error("SortOptions not found");
     }
 
     return options as Array<HTMLElement>;
   }
 
   sortByOldest(): void {
-    this.getOpenSortMenu().click();
+    const menu = this.getSortMenu();
+    if (!this.isSortMenuOpen()) {
+      menu.click();
+    }
     const sortByOldest = this.getSortOptions().find((e) =>
       e.innerHTML.toLowerCase().includes("oldest")
     );
@@ -75,9 +91,13 @@ export default class VideoList {
 
   async removeFromWatchLater(itemsToDelete: number): Promise<void> {
     this.getAll();
-    for (const item of this.items.slice(0, itemsToDelete)) {
+    for (const [index, item] of this.items.slice(0, itemsToDelete).entries()) {
+      console.log(`Removing video ${index}...`);
       await new Promise((resolve) => setTimeout(resolve, 1000));
       item.removeFromWatchLater();
+      console.log(`Removing video ${index} DONE!!!`);
+      console.log(`===========================`);
+      console.log(`===========================\n\n `);
     }
 
     const remainingToDelete = itemsToDelete - this.items.length;

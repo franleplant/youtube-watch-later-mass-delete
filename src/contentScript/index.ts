@@ -2,7 +2,7 @@ import "regenerator-runtime/runtime.js";
 import { browser } from "webextension-polyfill-ts";
 import VideoList from "./VideoList";
 
-console.log("YouTube Watch Later mass delete extension: content script loaded")
+console.log("YouTube Watch Later mass delete extension: content script loaded");
 
 // doc https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/onMessage
 browser.runtime.onMessage.addListener((message, sender) => {
@@ -23,7 +23,9 @@ browser.runtime.onMessage.addListener((message, sender) => {
 });
 
 async function removeFromWatchLater(videosToDelete: number) {
+  console.log("Selecting video list from DOM");
   const list = new VideoList();
+  console.log("Sorting by oldest");
   list.sortByOldest();
   console.log("deleting videos");
   await list.removeFromWatchLater(videosToDelete);

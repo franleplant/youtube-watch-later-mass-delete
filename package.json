@@ -11,6 +11,9 @@
     "release:chrome": "cd distribution && webstore upload --auto-publish",
     "release:firefox": "cd distribution && web-ext-submit",
     "test": "yarn typecheck",
+    "start": "yarn start:firefox",
+    "start:firefox": "web-ext run --source-dir=./distribution",
+    "start:chrome": "web-ext run -t chromium --source-dir=./distribution",
     "watch": "webpack --mode=development --watch"
   },
   "xo": {
@@ -49,7 +52,7 @@
     "stylelint-config-xo": "^0.15.0",
     "tsc": "^1.20150623.0",
     "typescript": "^4.1.3",
-    "web-ext": "^4.1.0",
+    "web-ext": "^6.7.0",
     "web-ext-submit": "^4.1.0",
     "webpack": "^5.12.2",
     "webpack-cli": "^4.3.1",
